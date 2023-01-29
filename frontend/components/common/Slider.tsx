@@ -121,9 +121,10 @@ const Input = styled.input`
 interface SliderProps {
   value?: number;
   startPosition?: number;
+  id?: string;
   onChange?: (newValue: number) => void;
 }
-function Slider({ value, onChange, startPosition }: SliderProps) {
+function Slider({ value, onChange, startPosition, id }: SliderProps) {
   const [sliderValue, setValue] = React.useState(value ?? 50);
 
   const handleValueChange = (value: number) => {
@@ -133,6 +134,7 @@ function Slider({ value, onChange, startPosition }: SliderProps) {
 
   return (
     <Input
+      id={`slider-${id}`}
       onInput={(e) => handleValueChange(e.target.value)}
       type="range"
       value={value}

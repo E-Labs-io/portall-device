@@ -79,6 +79,8 @@ const Home = () => {
     backgroundColor,
     mountVisible,
     mediaShadow,
+    image,
+    mediaShadowVisibility,
   } = useMountProvider();
 
   const [mediaAspectRatio, setAspectRatio] = useState<number>();
@@ -115,16 +117,18 @@ const Home = () => {
           <ImageArea height={"100%"} width={"100%"}>
             <NFTMedia
               index="1"
-              mediaUrl="ipfs://QmV2aQka9ma31RC6CSVheXnxNAfA7jG7KHH1quRf56ywz7"
+              mediaUrl={image}
               onLoadCallback={onMediaLoaded}
               height={`${mediaHeight - reSizeMedia}px`}
               width={`${mediaWidth - reSizeMedia}px`}
-              boxShadow={mediaShadow ? "0px 0px 30px 3px #ffffff" : null}
+              boxShadow={mediaShadowVisibility ? mediaShadow : null}
+              videoControls
+              autoPlayVideo
             />
           </ImageArea>
         </Mount>
-        <MenuButton />
       </FrameContainer>
+      <MenuButton />
     </HomeContainer>
   );
 };

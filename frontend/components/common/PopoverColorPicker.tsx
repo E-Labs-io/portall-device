@@ -2,7 +2,7 @@
 
 import { useClickOutside } from "hooks";
 import React, { useCallback, useRef, useState } from "react";
-import { HexColorPicker } from "react-colorful";
+import { HexColorPicker, RgbaStringColorPicker } from "react-colorful";
 import styled from "styled-components";
 
 const Picker = styled.div`
@@ -27,7 +27,13 @@ const Popover = styled.div`
   z-index: 5;
 `;
 
-export const PopoverPicker = ({ color, onChange }) => {
+interface PopoverPickerProps {
+  color: string;
+  pro?: true;
+  onChange: (value: string) => void;
+}
+
+export const PopoverPicker = ({ color, pro, onChange }: PopoverPickerProps) => {
   const popover = useRef();
   const [isOpen, toggle] = useState(false);
 
@@ -37,12 +43,16 @@ export const PopoverPicker = ({ color, onChange }) => {
   return (
     <Picker>
       <Swatch style={{ backgroundColor: color }} onClick={() => toggle(true)} />
-
-      {isOpen && (
-        <Popover ref={popover}>
-          <HexColorPicker color={color} onChange={onChange} />
-        </Popover>
-      )}
+      {isOpen &&
+        (pro ? (
+          <Popover ref={popover}>
+            <RgbaStringColorPicker color={color} onChange={onChange} />
+          </Popover>
+        ) : (
+          <Popover ref={popover}>
+            <HexColorPicker color={color} onChange={onChange} />
+          </Popover>
+        ))}
     </Picker>
   );
 };

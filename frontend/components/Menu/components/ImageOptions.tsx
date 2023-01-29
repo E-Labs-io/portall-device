@@ -8,6 +8,7 @@ import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 
 import Slider from "components/common/Slider";
+import { PopoverPicker } from "../../common/PopoverColorPicker";
 
 const OptionsContainer = styled.div`
   width: 100%;
@@ -38,17 +39,38 @@ const SliderContainer = styled.div`
 interface ImageOptionsProps {}
 function ImageOptions({}: ImageOptionsProps) {
   const {
-    mediaShadow,
+    mediaShadowStyle,
+    mediaShadowVisibility,
     reSizeMedia,
     handleMediaShadowVisibility,
     updateMediaPadding,
+    updateMediaShadowStyle,
   } = useMountProvider();
 
-  const [isMountVisible, setIsMountVisible] = useState<boolean>(mediaShadow);
+  const [isMountVisible, setIsMountVisible] = useState<boolean>(
+    mediaShadowVisibility
+  );
 
   const handleChangeShadowVisible = (flag: boolean) => {
     handleMediaShadowVisibility(flag);
     setIsMountVisible(flag);
+  };
+
+  const handleShadowStyleChange = (option: string, value: string | number) => {
+    let shadow = mediaShadowStyle;
+    if (option === "color") {
+      shadow.color = value.toString();
+    }
+    if (option === "feather") {
+      let val = Number(value) * 2;
+      shadow.feather = val;
+    }
+    if (option === "spread") {
+      let val = Number(value) * 2;
+      shadow.spread = val;
+    }
+
+    updateMediaShadowStyle(shadow);
   };
 
   const handleScaleChange = (value: number) => {
@@ -66,6 +88,17 @@ function ImageOptions({}: ImageOptionsProps) {
     >
       <OptionsContainer>
         <OptionBox>
+          Scale
+          <SliderContainer>
+            <Slider
+              id="mediaScale"
+              startPosition={reSizeMedia / 2}
+              value={reSizeMedia / 2}
+              onChange={handleScaleChange}
+            />
+          </SliderContainer>
+        </OptionBox>
+        <OptionBox>
           Show Shadow
           <ToggleSwitch
             status={isMountVisible && isMountVisible}
@@ -75,12 +108,34 @@ function ImageOptions({}: ImageOptionsProps) {
           />
         </OptionBox>
         <OptionBox>
-          Scale
+          Shadow Color
+          <PopoverPicker
+            color={mediaShadowStyle.color}
+            onChange={(color) => handleShadowStyleChange("color", color)}
+            pro
+          />
+        </OptionBox>
+        <OptionBox>
+          Shadow Feather
           <SliderContainer>
             <Slider
-              startPosition={reSizeMedia / 2}
-              value={reSizeMedia / 2}
-              onChange={handleScaleChange}
+              id="shadowFeather"
+              startPosition={mediaShadowStyle.feather}
+              value={mediaShadowStyle.feather}
+              onChange={(value) =>
+                handleShadowStyleChange("feather", value / 2)
+              }
+            />
+          </SliderContainer>
+        </OptionBox>
+        <OptionBox>
+          Shadow Spread
+          <SliderContainer>
+            <Slider
+              id="shadowFeather"
+              startPosition={mediaShadowStyle.spread}
+              value={mediaShadowStyle.spread}
+              onChange={(value) => handleShadowStyleChange("spread", value / 2)}
             />
           </SliderContainer>
         </OptionBox>

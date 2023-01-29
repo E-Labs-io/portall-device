@@ -9,7 +9,8 @@ import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { HexColorPicker } from "react-colorful";
 import { colorChangeOptions } from "hooks/MountProvider/types/ProviderTypes";
-import { PopoverPicker } from "./ColorPicker";
+import { PopoverPicker } from "../../common/PopoverColorPicker";
+import Slider from "components/common/Slider";
 
 const OptionsContainer = styled.div`
   width: 100%;
@@ -32,14 +33,22 @@ const OptionBox = styled.div`
   justify-content: space-between;
 `;
 
+const SliderContainer = styled.div`
+  padding-left: 10px;
+  width: 90%;
+  height: 100%;
+`;
+
 interface MountOptionsProps {}
 function MountOptions({}: MountOptionsProps) {
   const {
     mountColor,
+    mountWidth,
     backgroundColor,
     updateColor,
     mountVisible,
     handleMountVisibility,
+    setMountWidth,
   } = useMountProvider();
 
   const [isMountVisible, setIsMountVisible] = useState<boolean>(mountVisible);
@@ -68,11 +77,22 @@ function MountOptions({}: MountOptionsProps) {
           />
         </OptionBox>
         <OptionBox>
-          Mount Color
+          Border Color
           <PopoverPicker
             color={mountColor}
             onChange={(color) => updateColor(color, "mount")}
           />
+        </OptionBox>
+        <OptionBox>
+          Border Width
+          <SliderContainer>
+            <Slider
+              id="borderWidth"
+              startPosition={mountWidth}
+              value={mountWidth}
+              onChange={setMountWidth}
+            />
+          </SliderContainer>
         </OptionBox>
         <OptionBox>
           Background Color

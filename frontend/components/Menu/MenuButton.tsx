@@ -10,7 +10,7 @@ const MenuButtonContainer = styled.div`
   height: 100vh;
   width: 100vw;
   padding: 20px;
-  z-index: 5;
+
   opacity: 0.1;
   transition: opacity 0.5s;
   :hover {

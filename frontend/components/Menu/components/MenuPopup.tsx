@@ -3,6 +3,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import ImageOptions from "./ImageOptions";
+import ImageSelector from "./ImageSelector";
 import MountOptions from "./MountOptions";
 
 const PopupContainer = styled.div`
@@ -22,6 +23,7 @@ function MenuPopup({}: MenuPopupProps) {
     <PopupContainer>
       <MountOptions />
       <ImageOptions />
+      <ImageSelector />
     </PopupContainer>
   );
 }

@@ -60,6 +60,7 @@ export interface NFTMediaProps {
   boxShadow?: string;
   onClick?: () => void;
   onLoadCallback?: () => void;
+  loop?: boolean;
 }
 
 function NFTMedia({
@@ -76,6 +77,7 @@ function NFTMedia({
   autoPlayVideo,
   borderRadius,
   boxShadow,
+  loop = true,
   onLoadCallback,
 }: NFTMediaProps) {
   const [loading, setLoading] = useState<boolean>(false);
@@ -181,6 +183,7 @@ function NFTMedia({
           controls={videoControls}
           autoplay={autoPlayVideo}
           boxShadow={boxShadow}
+          loop={loop}
         />
       )}
     </MediaContainer>
