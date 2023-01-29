@@ -9,8 +9,12 @@
 
 function checkIfIPFSUrl(url: string) {
   if (url.includes("ipfs://")) {
-    var prefix = "https://ipfs.io/ipfs/";
-    var newUri = url.substring(7);
+    let prefix;
+    prefix = "https://ipfs.io/";
+    var newUri = url.split("//")[1];
+    if (newUri.split("/")[0] !== "ipfs") {
+      prefix = prefix + "ipfs/";
+    }
     return `${prefix}${newUri}`;
   } else if (url.includes("ipfs.infura.io")) {
     var prefix = "https://ipfs.io/ipfs/";

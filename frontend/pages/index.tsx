@@ -1,60 +1,88 @@
 /** @format */
 
+import { Modal } from "components/common";
+import StateSkeleton from "components/common/SkeletonLoader";
+import MenuButton from "components/Menu/MenuButton";
+import calculateAspectRatio from "helpers/media/getImageAspectRatio";
+import scaleImage from "helpers/media/scaleMedia";
+import useMountProvider from "hooks/MountProvider/hooks/useNFTimelineProvider";
+import NFTMedia from "hooks/web3/components/NFTMedia";
+import useWindowSize from "hooks/window/useWindowSize";
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 
-import Connection from "components/Connection";
-import Introduction from "components/timeline/Introduction";
-
 const HomeContainer = styled.div`
-  position: absolute;
+  top: 0;
+  left: 0;
   width: 100vw;
-  min-height: 100vh;
-  background: ${({ theme }) =>
-    theme ? theme.coloredTheme.background : "white"};
-  display: flex;
-  flex-direction: column;
+  height: 100vh;
+  position: absolute;
+  overflow: hidden;
   align-items: center;
-  justify-content: space-evenly;
-  margin: auto;
-  row-gap: 15px;
+  justify-content: center;
 `;
 
-const TitleContainer = styled.div`
-  width: 100%;
-  height: 100px;
-  margin-top: 100px;
-  justify-content: center;
+const ImageArea = styled.div`
+  width: ${({ width }) => (width ? width : "100%")};
+  height: ${({ height }) => (height ? height : "100%")};
   display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
-const ConnectionContainer = styled.div`
-  height: auto;
+const SizeOverLay = styled.div`
+  top: 0;
+  right: 0;
+  position: absolute;
+  text-align: right;
 `;
-const PageTitle = styled.div`
-  justify-content: center;
-  background: #70ffde;
-  background: linear-gradient(to bottom right, #70ffde 26%, #fc00ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: #000000;
-  font-family: "Kanit", sans-serif;
-  font-size: 70px;
-  text-align: center;
+
+const OverlayText = styled.div`
+  color: #a0a0a0;
+  font-size: x-large;
 `;
 
 const Home = () => {
+  const { width, height } = useWindowSize();
+  const { mountWidth, reSizeMedia } = useMountProvider();
+
+  const [mediaAspectRatio, setAspectRatio] = useState<number>();
+  const [mediaWidth, setMediaWidth] = useState<number>();
+  const [mediaHeight, setMediaHeight] = useState<number>();
+
+  useEffect(() => {});
+
+  const onMediaLoaded = () => {
+    console.log("Media Loaded");
+    const media = document.getElementById(`NFTMedia-1`) as
+      | HTMLImageElement
+      | HTMLVideoElement;
+    const aspectRatio = calculateAspectRatio(media);
+    const scaledImage = scaleImage(
+      width < height ? width : height,
+      mountWidth,
+      aspectRatio
+    );
+    setAspectRatio(aspectRatio);
+    setMediaWidth(scaledImage.width);
+    setMediaHeight(scaledImage.height);
+    console.log("Scaled Image Size: ", scaledImage);
+    console.log("Media aspect Ratio: ", aspectRatio);
+    console.log(`Window W: ${width} H: ${height}`);
+  };
+
   return (
     <HomeContainer>
-      <TitleContainer>
-        <PageTitle>Non-Fungible Timeline</PageTitle>
-      </TitleContainer>
-      <ConnectionContainer>
-        <Connection />
-      </ConnectionContainer>
-
-      <Introduction />
+      <ImageArea height={mediaHeight} width={mediaWidth}>
+        <NFTMedia
+          index="1"
+          mediaUrl="ipfs://QmV2aQka9ma31RC6CSVheXnxNAfA7jG7KHH1quRf56ywz7"
+          onLoadCallback={onMediaLoaded}
+          height={`${mediaHeight - reSizeMedia}px`}
+          width={`${mediaWidth - reSizeMedia}px`}
+        />
+      </ImageArea>
+      <MenuButton />
     </HomeContainer>
   );
 };

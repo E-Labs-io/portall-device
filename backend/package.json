@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "The backend system for running the device UI",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "e-labs",
   "license": "ISC",
   "scripts": {
@@ -17,10 +14,13 @@
   "dependencies": {
     "axios": "^1.2.0",
     "body-parser": "^1.20.1",
+    "child_process": "^1.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "express-rate-limit": "^6.7.0"
+    "express-rate-limit": "^6.7.0",
+    "helmet": "^6.0.0",
+    "puppeteer": "^19.3.0"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
