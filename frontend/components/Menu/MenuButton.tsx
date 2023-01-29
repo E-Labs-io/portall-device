@@ -4,6 +4,7 @@ import { Modal } from "components/common";
 import StateSkeleton from "components/common/SkeletonLoader";
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
+import MenuPopup from "./components/MenuPopup";
 
 const MenuButtonContainer = styled.div`
   height: 100vh;
@@ -26,9 +27,10 @@ const MenuButtonHolder = styled.div`
 
 const Button = styled.div`
   width: 100px;
+  color: black;
   height: 100px;
   border-radius: 100%;
-  background-color: green;
+  background-color: #d9d9d9;
   align-items: center;
   justify-content: center;
   display: flex;
@@ -53,10 +55,10 @@ function MenuButton({}: MenuButtonProps) {
       </MenuButtonHolder>
       <Modal
         onRequestClose={onRequestCloseModal}
-        title="Menu"
+        title="Menu [device name]"
         isOpen={isModalOpen}
       >
-        <StateSkeleton width="200px" height="200px" />
+        <MenuPopup />
       </Modal>
     </MenuButtonContainer>
   );

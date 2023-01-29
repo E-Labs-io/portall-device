@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ReactTooltip from "react-tooltip";
+import { Tooltip } from "react-tooltip";
 const CheckBoxWrapper = styled.div`
   position: relative;
 `;
@@ -96,46 +97,44 @@ function ToggleSwitch({
   const [firstUse, setFirstUse] = useState<boolean>(false);
 
   return (
-    <CheckBoxWrapper
-      data-tip
-      data-for="toggle"
-      backgroundColor={backgroundColor}
-      buttonColor={buttonColor}
-      selectedColor={selectedColor}
-      borderRadius={borderRadius}
-      height={height}
-      width={width}
-      disabled={disabled}
-      zIndex={zIndex}
-      active={active}
-      checked={status}
-    >
-      <CheckBox
+    <>
+      <CheckBoxWrapper
+        id={`toggleSwitch-${id}Wrapper`}
         backgroundColor={backgroundColor}
         buttonColor={buttonColor}
         selectedColor={selectedColor}
         borderRadius={borderRadius}
         height={height}
         width={width}
-        zIndex={zIndex}
         disabled={disabled}
-        id={id ? id : "toggleSwitch"}
-        type="checkbox"
-        checked={status}
-        control={active}
+        zIndex={zIndex}
         active={active}
-        onChange={() => {
-          active ? setActive(false) : setActive(true);
-          callBack ? callBack(active ? false : true) : null;
-        }}
-      />
-      <CheckBoxLabel htmlFor={id} />
-      {tooltip && (
-        <ReactTooltip id="toggle" place="top" type="dark" effect="float">
-          {tooltip}
-        </ReactTooltip>
-      )}
-    </CheckBoxWrapper>
+        checked={status}
+      >
+        <CheckBox
+          backgroundColor={backgroundColor}
+          buttonColor={buttonColor}
+          selectedColor={selectedColor}
+          borderRadius={borderRadius}
+          height={height}
+          width={width}
+          zIndex={zIndex}
+          disabled={disabled}
+          id={`toggleSwitch-${id}`}
+          data-tooltip-content={tooltip}
+          type="checkbox"
+          checked={status}
+          control={active}
+          active={active}
+          onChange={() => {
+            active ? setActive(false) : setActive(true);
+            callBack ? callBack(active ? false : true) : null;
+          }}
+        />
+
+        <CheckBoxLabel htmlFor={`toggleSwitch-${id}`} />
+      </CheckBoxWrapper>
+    </>
   );
 }
 

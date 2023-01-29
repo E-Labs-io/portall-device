@@ -22,6 +22,34 @@ const HomeContainer = styled.div`
   justify-content: center;
 `;
 
+const FrameContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background-color: ${({ mountColor }) => (mountColor ? mountColor : "white")};
+  align-items: center;
+  justify-content: center;
+  display: flex;
+`;
+const Mount = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 0;
+
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-style: ${({ visible }) => (visible ? "solid" : "none")};
+  border-width: ${({ mountWidth }) => (mountWidth ? mountWidth : "10px")};
+  border-radius: ${({ mountCurve }) => (mountCurve ? mountCurve : "0")};
+  border-color: ${({ mountColor }) => (mountColor ? mountColor : "white")};
+  background-color: ${({ backgroundColor }) =>
+    backgroundColor ? backgroundColor : "white"};
+  box-shadow: inset 0px 0px 10px 5px rgba(169, 162, 162, 0);
+`;
+
 const ImageArea = styled.div`
   width: ${({ width }) => (width ? width : "100%")};
   height: ${({ height }) => (height ? height : "100%")};
@@ -44,7 +72,14 @@ const OverlayText = styled.div`
 
 const Home = () => {
   const { width, height } = useWindowSize();
-  const { mountWidth, reSizeMedia } = useMountProvider();
+  const {
+    mountWidth,
+    reSizeMedia,
+    mountColor,
+    backgroundColor,
+    mountVisible,
+    mediaShadow,
+  } = useMountProvider();
 
   const [mediaAspectRatio, setAspectRatio] = useState<number>();
   const [mediaWidth, setMediaWidth] = useState<number>();
@@ -66,25 +101,34 @@ const Home = () => {
     setAspectRatio(aspectRatio);
     setMediaWidth(scaledImage.width);
     setMediaHeight(scaledImage.height);
-    console.log("Scaled Image Size: ", scaledImage);
-    console.log("Media aspect Ratio: ", aspectRatio);
-    console.log(`Window W: ${width} H: ${height}`);
   };
 
   return (
     <HomeContainer>
-      <ImageArea height={mediaHeight} width={mediaWidth}>
-        <NFTMedia
-          index="1"
-          mediaUrl="ipfs://QmV2aQka9ma31RC6CSVheXnxNAfA7jG7KHH1quRf56ywz7"
-          onLoadCallback={onMediaLoaded}
-          height={`${mediaHeight - reSizeMedia}px`}
-          width={`${mediaWidth - reSizeMedia}px`}
-        />
-      </ImageArea>
-      <MenuButton />
+      <FrameContainer backgroundColor={mountColor}>
+        <Mount
+          mountWidth={`${mountWidth}px`}
+          mountColor={mountColor}
+          backgroundColor={backgroundColor}
+          visible={mountVisible}
+        >
+          <ImageArea height={"100%"} width={"100%"}>
+            <NFTMedia
+              index="1"
+              mediaUrl="ipfs://QmV2aQka9ma31RC6CSVheXnxNAfA7jG7KHH1quRf56ywz7"
+              onLoadCallback={onMediaLoaded}
+              height={`${mediaHeight - reSizeMedia}px`}
+              width={`${mediaWidth - reSizeMedia}px`}
+              boxShadow={mediaShadow ? "0px 0px 30px 3px #ffffff" : null}
+            />
+          </ImageArea>
+        </Mount>
+        <MenuButton />
+      </FrameContainer>
     </HomeContainer>
   );
 };
 
 export default Home;
+
+// height={mediaHeight} width={mediaWidth}

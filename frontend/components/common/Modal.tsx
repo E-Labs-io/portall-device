@@ -47,6 +47,9 @@ function Modal({
   const { width: windowWidth, height: windowHeight } = useWindowSize();
   const modalStyles = {
     overlay: {
+      right: '-50%',
+      bottom: 0,
+      position: "absolute",
       backgroundColor: "rgba(0, 0, 0, 0.75)",
       zIndex: 11,
       display: "flex",

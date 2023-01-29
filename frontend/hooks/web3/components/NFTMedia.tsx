@@ -9,7 +9,7 @@ import StateSkeleton from "../../../components/common/SkeletonLoader";
 const MediaContainer = styled.div`
   border-radius: ${({ borderRadius }) =>
     borderRadius ? borderRadius : "10px"};
-  background-color: #f5f10946;
+  background-color: transparent;
   border-width: 1px;
   border-style: none;
   background: none;
@@ -31,16 +31,18 @@ const NFTImage = styled.img`
   cursor: ${({ cursor }) => cursor || "default"};
   align-items: center;
   justify-content: center;
+  box-shadow: ${({ boxShadow }) => (boxShadow ? boxShadow : "none")};
 `;
 const NFTVideo = styled.video`
   border-radius: inherit;
-  background-color: white;
+  background-color: transparent;
   width: ${({ width }) => (width ? width : "inherit")};
   height: ${({ height }) => (height ? height : "inherit")};
   overflow: hidden;
   cursor: ${({ cursor }) => cursor || "default"};
   align-items: center;
   justify-content: center;
+  box-shadow: ${({ boxShadow }) => (boxShadow ? boxShadow : "none")};
 `;
 
 export interface NFTMediaProps {
@@ -55,6 +57,7 @@ export interface NFTMediaProps {
   borderRadius?: string;
   videoControls?: true;
   autoPlayVideo?: true;
+  boxShadow?: string;
   onClick?: () => void;
   onLoadCallback?: () => void;
 }
@@ -72,6 +75,7 @@ function NFTMedia({
   videoControls,
   autoPlayVideo,
   borderRadius,
+  boxShadow,
   onLoadCallback,
 }: NFTMediaProps) {
   const [loading, setLoading] = useState<boolean>(false);
@@ -164,6 +168,7 @@ function NFTMedia({
           src={imageUrl}
           onLoad={handelOnLoad}
           onerror={handelMediaError}
+          boxShadow={boxShadow}
         />
       )}
 
@@ -175,6 +180,7 @@ function NFTMedia({
           src={imageUrl}
           controls={videoControls}
           autoplay={autoPlayVideo}
+          boxShadow={boxShadow}
         />
       )}
     </MediaContainer>
