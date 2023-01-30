@@ -4,11 +4,11 @@ import { Button } from "components/common";
 import DropdownContainer from "components/common/DropdownContainer";
 import StateSkeleton from "components/common/SkeletonLoader";
 import ToggleSwitch from "components/common/ToggleSwitch";
-import useMountProvider from "hooks/MountProvider/hooks/useNFTimelineProvider";
+import useFrameProvider from "hooks/FrameProvider/hooks/useFrameProvider";
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { HexColorPicker } from "react-colorful";
-import { colorChangeOptions } from "hooks/MountProvider/types/ProviderTypes";
+import { colorChangeOptions } from "hooks/FrameProvider/types/ProviderTypes";
 import { PopoverPicker } from "../../common/PopoverColorPicker";
 import Slider from "components/common/Slider";
 
@@ -49,7 +49,7 @@ function MountOptions({}: MountOptionsProps) {
     mountVisible,
     handleMountVisibility,
     setMountWidth,
-  } = useMountProvider();
+  } = useFrameProvider();
 
   const [isMountVisible, setIsMountVisible] = useState<boolean>(mountVisible);
 

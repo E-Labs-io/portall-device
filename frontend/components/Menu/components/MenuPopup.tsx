@@ -1,5 +1,7 @@
 /** @format */
 
+import { Button } from "components/common";
+import { useFrameProvider } from "hooks/FrameProvider";
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import ImageOptions from "./ImageOptions";
@@ -19,6 +21,7 @@ const PopupContainer = styled.div`
 
 interface MenuPopupProps {}
 function MenuPopup({}: MenuPopupProps) {
+  const {} = useFrameProvider();
   return (
     <PopupContainer>
       <MountOptions />

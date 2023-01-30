@@ -5,7 +5,8 @@ import StateSkeleton from "components/common/SkeletonLoader";
 import MenuButton from "components/Menu/MenuButton";
 import calculateAspectRatio from "helpers/media/getImageAspectRatio";
 import scaleImage from "helpers/media/scaleMedia";
-import useMountProvider from "hooks/MountProvider/hooks/useNFTimelineProvider";
+import { useFrameProvider } from "hooks/FrameProvider";
+import { usePortalProvider } from "hooks/PortalProvider";
 import NFTMedia from "hooks/web3/components/NFTMedia";
 import useWindowSize from "hooks/window/useWindowSize";
 import React, { useState, useContext, useEffect } from "react";
@@ -72,6 +73,7 @@ const OverlayText = styled.div`
 
 const Home = () => {
   const { width, height } = useWindowSize();
+  const { image } = usePortalProvider();
   const {
     mountWidth,
     reSizeMedia,
@@ -79,9 +81,8 @@ const Home = () => {
     backgroundColor,
     mountVisible,
     mediaShadow,
-    image,
     mediaShadowVisibility,
-  } = useMountProvider();
+  } = useFrameProvider();
 
   const [mediaAspectRatio, setAspectRatio] = useState<number>();
   const [mediaWidth, setMediaWidth] = useState<number>();

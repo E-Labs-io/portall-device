@@ -1,16 +1,13 @@
 /** @format */
 
 import React, { useEffect, useState, createContext } from "react";
-import styled from "styled-components";
-import { MountProviderContextType } from "../types";
-import {
-  colorChangeOptions,
-  setBooleanFunction,
-  ShadowStyle,
-} from "../types/ProviderTypes";
+import { FrameProviderContextType } from "../types";
+import { colorChangeOptions, ShadowStyle } from "../types/ProviderTypes";
+import { setBooleanFunction } from "types/genericFunctionTypes";
+import { usePortalProvider } from "hooks/PortalProvider";
 
-export const MountProviderContext = createContext(
-  {} as MountProviderContextType
+export const FrameProviderContext = createContext(
+  {} as FrameProviderContextType
 );
 
 const shadowInitalState = "0px 0px 120px 20px #00000093";
@@ -20,10 +17,25 @@ const shadowInitStyleState = {
   spread: 20,
 };
 
-const MountProvider = ({ children }) => {
-  const [image, setImage] = useState<string>(
-    "https://openseauserdata.com/files/a6219a36782594424d8e48c0072fc763.mp4"
-  );
+const FrameProvider = ({ children }) => {
+  const { activeAsset } = usePortalProvider();
+  const [firstLoad, setFirstLoad] = useState<boolean>(false);
+  useEffect(() => {
+    if (!firstLoad && activeAsset) {
+      setFirstLoad(true);
+      setBackgroundColor(activeAsset.style.backgroundColor);
+      setMediaShadowStyle(activeAsset.style.mediaShadow);
+      setMountColor(activeAsset.style.mountColor);
+      setMediaShadowVisibility(activeAsset.style.showShadow);
+      setMountWidth(activeAsset.style.mountWidth);
+      setRescaleMedia(activeAsset.style.reSizeMedia);
+      setMountVisible(activeAsset.style.mountShow);
+      updateMediaShadowStyle(activeAsset.style.mediaShadow);
+    }
+  });
+  /**
+   *  Active Asset
+   */
   const [mountWidth, setMountWidth] = useState<number>(50);
   const [mountColor, setMountColor] = useState<string>("#f00101");
   const [mountVisible, setMountVisible] = useState<boolean>(false);
@@ -39,10 +51,8 @@ const MountProvider = ({ children }) => {
     if (option === "mount") setMountColor(color);
     if (option === "background") setBackgroundColor(color);
   };
-
   const handleMountVisibility: setBooleanFunction = (flag: boolean) =>
     setMountVisible(flag);
-
   const updateMediaPadding = (padding: number) => setRescaleMedia(padding);
   const updateMediaShadowStyle = (style: ShadowStyle) => {
     const fullStyle = `0px 0px ${style.feather}px ${style.spread}px ${style.color}`;
@@ -53,10 +63,8 @@ const MountProvider = ({ children }) => {
     setMediaShadowVisibility(flag);
 
   return (
-    <MountProviderContext.Provider
+    <FrameProviderContext.Provider
       value={{
-        image,
-        setImage,
         mountWidth,
         mountColor,
         mountVisible,
@@ -74,9 +82,8 @@ const MountProvider = ({ children }) => {
       }}
     >
       {children}
-    </MountProviderContext.Provider>
+    </FrameProviderContext.Provider>
   );
 };
 
-export default MountProvider;
-//"0px 0px 30px 3px #ffffff"
+export default FrameProvider;//"0px 0px 30px 3px #ffffff"

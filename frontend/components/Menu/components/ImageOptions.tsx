@@ -3,7 +3,7 @@
 import DropdownContainer from "components/common/DropdownContainer";
 
 import ToggleSwitch from "components/common/ToggleSwitch";
-import useMountProvider from "hooks/MountProvider/hooks/useNFTimelineProvider";
+import useFrameProvider from "hooks/FrameProvider/hooks/useFrameProvider";
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 
@@ -45,7 +45,7 @@ function ImageOptions({}: ImageOptionsProps) {
     handleMediaShadowVisibility,
     updateMediaPadding,
     updateMediaShadowStyle,
-  } = useMountProvider();
+  } = useFrameProvider();
 
   const [isMountVisible, setIsMountVisible] = useState<boolean>(
     mediaShadowVisibility
@@ -120,11 +120,9 @@ function ImageOptions({}: ImageOptionsProps) {
           <SliderContainer>
             <Slider
               id="shadowFeather"
-              startPosition={mediaShadowStyle.feather}
-              value={mediaShadowStyle.feather}
-              onChange={(value) =>
-                handleShadowStyleChange("feather", value / 2)
-              }
+              startPosition={mediaShadowStyle.feather / 2}
+              value={mediaShadowStyle.feather / 2}
+              onChange={(value) => handleShadowStyleChange("feather", value)}
             />
           </SliderContainer>
         </OptionBox>
@@ -133,9 +131,9 @@ function ImageOptions({}: ImageOptionsProps) {
           <SliderContainer>
             <Slider
               id="shadowFeather"
-              startPosition={mediaShadowStyle.spread}
-              value={mediaShadowStyle.spread}
-              onChange={(value) => handleShadowStyleChange("spread", value / 2)}
+              startPosition={mediaShadowStyle.spread / 2}
+              value={mediaShadowStyle.spread / 2}
+              onChange={(value) => handleShadowStyleChange("spread", value)}
             />
           </SliderContainer>
         </OptionBox>

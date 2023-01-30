@@ -2,15 +2,10 @@
 
 import { Button, InputBox } from "components/common";
 import DropdownContainer from "components/common/DropdownContainer";
-import StateSkeleton from "components/common/SkeletonLoader";
-import ToggleSwitch from "components/common/ToggleSwitch";
-import useMountProvider from "hooks/MountProvider/hooks/useNFTimelineProvider";
+import useFrameProvider from "hooks/FrameProvider/hooks/useFrameProvider";
+import { usePortalProvider } from "hooks/PortalProvider";
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
-import { HexColorPicker } from "react-colorful";
-import { colorChangeOptions } from "hooks/MountProvider/types/ProviderTypes";
-import { PopoverPicker } from "../../common/PopoverColorPicker";
-import Slider from "components/common/Slider";
 
 const OptionsContainer = styled.div`
   width: 100%;
@@ -41,7 +36,7 @@ const SliderContainer = styled.div`
 
 interface ImageSelectorProps {}
 function ImageSelector({}: ImageSelectorProps) {
-  const { setImage, image } = useMountProvider();
+  const { setImage, image } = usePortalProvider();
   const [inputTrack, track] = useState<string>(null);
 
   const handleURLSubmit = () => {
